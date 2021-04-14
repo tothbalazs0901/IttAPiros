@@ -5,17 +5,22 @@
  */
 package ittapiros;
 
+import java.util.Random;
+
 /**
  *
  * @author Balazs
  */
 public class ablak extends javax.swing.JFrame {
-
+        Random r = new Random();
+        int golyoHelye = r.nextInt(3-1+1)-1;
     /**
      * Creates new form ablak
      */
     public ablak() {
         initComponents();
+        setVisible(true);
+        
     }
 
     /**
@@ -44,10 +49,25 @@ public class ablak extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnPohar1.setText("Pohár1");
+        btnPohar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPohar1ActionPerformed(evt);
+            }
+        });
 
         btnPohar2.setText("Pohár 2");
+        btnPohar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPohar2ActionPerformed(evt);
+            }
+        });
 
         btnPohar3.setText("Pohár3");
+        btnPohar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPohar3ActionPerformed(evt);
+            }
+        });
 
         lbVisszajelzes.setText("Visszajelzés");
 
@@ -56,6 +76,11 @@ public class ablak extends javax.swing.JFrame {
         mnuFajl.setText("Fájl");
 
         mnuUjJatek.setText("Új játék");
+        mnuUjJatek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUjJatekActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuUjJatek);
 
         mnuMentes.setText("Mentés");
@@ -69,9 +94,19 @@ public class ablak extends javax.swing.JFrame {
         mnuJatek.setText("Játék");
 
         mnu3Pohar.setText("3 pohár");
+        mnu3Pohar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnu3PoharActionPerformed(evt);
+            }
+        });
         mnuJatek.add(mnu3Pohar);
 
         mnu4Pohar.setText("4 pohár");
+        mnu4Pohar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnu4PoharActionPerformed(evt);
+            }
+        });
         mnuJatek.add(mnu4Pohar);
 
         jMenuBar1.add(mnuJatek);
@@ -84,16 +119,16 @@ public class ablak extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbVisszajelzes, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ckbUjHely)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnPohar1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnPohar2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnPohar3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ckbUjHely))
-                .addContainerGap(104, Short.MAX_VALUE))
+                        .addComponent(btnPohar1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPohar2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPohar3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbVisszajelzes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,13 +140,61 @@ public class ablak extends javax.swing.JFrame {
                     .addComponent(btnPohar1)
                     .addComponent(btnPohar2)
                     .addComponent(btnPohar3))
-                .addGap(51, 51, 51)
+                .addGap(54, 54, 54)
                 .addComponent(lbVisszajelzes)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnu4PoharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnu4PoharActionPerformed
+        //felugró figyelmeztetés
+        lbVisszajelzes.setText("Ez a funkció egyelőre nem elérhető!");
+    }//GEN-LAST:event_mnu4PoharActionPerformed
+
+    private void mnu3PoharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnu3PoharActionPerformed
+        
+        
+    }//GEN-LAST:event_mnu3PoharActionPerformed
+
+    private void btnPohar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar1ActionPerformed
+        if(golyoHelye == 1){
+            lbVisszajelzes.setText("Sikeres tipp!");
+        }else{
+             lbVisszajelzes.setText("Nem itt van!");
+             if(ckbUjHely.isSelected()){
+                 golyoHelye = r.nextInt((3-1)+1)+1;
+             }
+        }
+    }//GEN-LAST:event_btnPohar1ActionPerformed
+
+    private void btnPohar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar2ActionPerformed
+        if(golyoHelye == 2){
+            lbVisszajelzes.setText("Sikeres tipp!");
+        }else{
+             lbVisszajelzes.setText("Nem itt van!");
+             if(ckbUjHely.isSelected()){
+                 golyoHelye = r.nextInt(3-1+1)-1;
+             }
+        }
+    }//GEN-LAST:event_btnPohar2ActionPerformed
+
+    private void btnPohar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar3ActionPerformed
+        if(golyoHelye == 3){
+            lbVisszajelzes.setText("Sikeres tipp!");
+        }else{
+             lbVisszajelzes.setText("Nem itt van!");
+             if(ckbUjHely.isSelected()){
+                 golyoHelye = r.nextInt(3-1+1)-1;
+             }
+        }
+    }//GEN-LAST:event_btnPohar3ActionPerformed
+
+    private void mnuUjJatekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUjJatekActionPerformed
+        lbVisszajelzes.setText("Visszajelzés");
+        golyoHelye = r.nextInt(3-1+1)-1;
+    }//GEN-LAST:event_mnuUjJatekActionPerformed
 
     /**
      * @param args the command line arguments
