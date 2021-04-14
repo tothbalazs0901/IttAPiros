@@ -31,6 +31,10 @@ public class ablak extends javax.swing.JFrame {
         initComponents();
         setVisible(true);
 
+        if (Files.exists(Paths.get("tipp.deb"))) {
+            setTitle("A golyó a " + golyoHelye + ". számú pohár alatt van");
+        }
+
     }
 
     /**
@@ -253,6 +257,9 @@ public class ablak extends javax.swing.JFrame {
 
     private void mnuBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBetoltesActionPerformed
         try {
+            if (Files.exists(Paths.get("tipp.deb"))) {
+                setTitle("A golyó a " + golyoHelye + ". számú pohár alatt van");
+            }
             List<String> sorok = Files.readAllLines(Paths.get("config.txt"));
             List<Adatok> adatLista = new ArrayList<>();
             for (int i = 1; i < sorok.size(); i++) {
@@ -260,18 +267,18 @@ public class ablak extends javax.swing.JFrame {
                 adatLista.add(new Adatok(sor));
             }
             for (Adatok adat : adatLista) {
-                if(adat.getJatekMod().equals("4 pohár")){
+                if (adat.getJatekMod().equals("4 pohár")) {
                     lbVisszajelzes.setText("Ez a funkció egyelőre nem elérhető!");
                 }
                 golyoHelye = adat.getGolyoHelye();
-                if(adat.getAllapot().equals("Vesztett")){
+                if (adat.getAllapot().equals("Vesztett")) {
                     lbVisszajelzes.setText("Nem itt van!");
-                }else if(adat.getAllapot().equals("Nyert")){
+                } else if (adat.getAllapot().equals("Nyert")) {
                     lbVisszajelzes.setText("Sikeres tipp!");
                 }
-                if(adat.getKeveres().equals("Mindig újra kever")){
+                if (adat.getKeveres().equals("Mindig újra kever")) {
                     ckbUjHely.setSelected(true);
-                }else{
+                } else {
                     ckbUjHely.setSelected(false);
                 }
 
