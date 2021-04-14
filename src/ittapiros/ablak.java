@@ -5,22 +5,32 @@
  */
 package ittapiros;
 
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Balazs
  */
 public class ablak extends javax.swing.JFrame {
-        Random r = new Random();
-        int golyoHelye = r.nextInt(3-1+1)-1;
+
+    Random r = new Random();
+    int golyoHelye = r.nextInt(3 - 1 + 1) - 1;
+
     /**
      * Creates new form ablak
      */
     public ablak() {
         initComponents();
         setVisible(true);
-        
+
     }
 
     /**
@@ -84,9 +94,19 @@ public class ablak extends javax.swing.JFrame {
         mnuFajl.add(mnuUjJatek);
 
         mnuMentes.setText("Mentés");
+        mnuMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMentesActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuMentes);
 
         mnuBetoltes.setText("Betöltés");
+        mnuBetoltes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBetoltesActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuBetoltes);
 
         jMenuBar1.add(mnuFajl);
@@ -154,47 +174,112 @@ public class ablak extends javax.swing.JFrame {
     }//GEN-LAST:event_mnu4PoharActionPerformed
 
     private void mnu3PoharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnu3PoharActionPerformed
-        
-        
+
+
     }//GEN-LAST:event_mnu3PoharActionPerformed
 
     private void btnPohar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar1ActionPerformed
-        if(golyoHelye == 1){
+        if (golyoHelye == 1) {
             lbVisszajelzes.setText("Sikeres tipp!");
-        }else{
-             lbVisszajelzes.setText("Nem itt van!");
-             if(ckbUjHely.isSelected()){
-                 golyoHelye = r.nextInt((3-1)+1)+1;
-             }
+        } else {
+            lbVisszajelzes.setText("Nem itt van!");
+            if (ckbUjHely.isSelected()) {
+                golyoHelye = r.nextInt((3 - 1) + 1) + 1;
+            }
         }
     }//GEN-LAST:event_btnPohar1ActionPerformed
 
     private void btnPohar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar2ActionPerformed
-        if(golyoHelye == 2){
+        if (golyoHelye == 2) {
             lbVisszajelzes.setText("Sikeres tipp!");
-        }else{
-             lbVisszajelzes.setText("Nem itt van!");
-             if(ckbUjHely.isSelected()){
-                 golyoHelye = r.nextInt(3-1+1)-1;
-             }
+        } else {
+            lbVisszajelzes.setText("Nem itt van!");
+            if (ckbUjHely.isSelected()) {
+                golyoHelye = r.nextInt(3 - 1 + 1) - 1;
+            }
         }
     }//GEN-LAST:event_btnPohar2ActionPerformed
 
     private void btnPohar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPohar3ActionPerformed
-        if(golyoHelye == 3){
+        if (golyoHelye == 3) {
             lbVisszajelzes.setText("Sikeres tipp!");
-        }else{
-             lbVisszajelzes.setText("Nem itt van!");
-             if(ckbUjHely.isSelected()){
-                 golyoHelye = r.nextInt(3-1+1)-1;
-             }
+        } else {
+            lbVisszajelzes.setText("Nem itt van!");
+            if (ckbUjHely.isSelected()) {
+                golyoHelye = r.nextInt(3 - 1 + 1) - 1;
+            }
         }
     }//GEN-LAST:event_btnPohar3ActionPerformed
 
     private void mnuUjJatekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUjJatekActionPerformed
         lbVisszajelzes.setText("Visszajelzés");
-        golyoHelye = r.nextInt(3-1+1)-1;
+        ckbUjHely.setSelected(false);
+        golyoHelye = r.nextInt(3 - 1 + 1) - 1;
     }//GEN-LAST:event_mnuUjJatekActionPerformed
+
+    private void mnuMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMentesActionPerformed
+        RandomAccessFile raf;
+        ArrayList<String> adatok = new ArrayList<>();
+        if (mnu3Pohar.isSelected()) {
+            adatok.add("3 pohár");
+        } else if (mnu4Pohar.isSelected()) {
+            adatok.add("4 pohár");
+        }
+        adatok.add(String.valueOf(golyoHelye));
+        if (lbVisszajelzes.getText().equals("Sikeres tipp!")) {
+            adatok.add("Nyert");
+        } else if (lbVisszajelzes.getText().equals("Nem itt van!")) {
+            adatok.add("Vesztett");
+        } else {
+            adatok.add("Nem játszott");
+        }
+        if (ckbUjHely.isSelected()) {
+            adatok.add("Mindig újra kever");
+        } else {
+            adatok.add("Nem kever");
+        }
+
+        try {
+            raf = new RandomAccessFile("config.txt", "rw");
+            for (String s : adatok) {
+                raf.writeBytes(s + "\n");
+            }
+
+            raf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_mnuMentesActionPerformed
+
+    private void mnuBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBetoltesActionPerformed
+        try {
+            List<String> sorok = Files.readAllLines(Paths.get("config.txt"));
+            List<Adatok> adatLista = new ArrayList<>();
+            for (int i = 1; i < sorok.size(); i++) {
+                String sor = sorok.get(i);
+                adatLista.add(new Adatok(sor));
+            }
+            for (Adatok adat : adatLista) {
+                if(adat.getJatekMod().equals("4 pohár")){
+                    lbVisszajelzes.setText("Ez a funkció egyelőre nem elérhető!");
+                }
+                golyoHelye = adat.getGolyoHelye();
+                if(adat.getAllapot().equals("Vesztett")){
+                    lbVisszajelzes.setText("Nem itt van!");
+                }else if(adat.getAllapot().equals("Nyert")){
+                    lbVisszajelzes.setText("Sikeres tipp!");
+                }
+                if(adat.getKeveres().equals("Mindig újra kever")){
+                    ckbUjHely.setSelected(true);
+                }else{
+                    ckbUjHely.setSelected(false);
+                }
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ablak.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnuBetoltesActionPerformed
 
     /**
      * @param args the command line arguments
